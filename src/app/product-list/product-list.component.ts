@@ -1,42 +1,44 @@
-import { Component, AfterViewInit, viewChild } from "@angular/core";
+import {
+  Component,
+  AfterViewInit,
+  viewChild,
+  OnInit,
+  inject,
+} from "@angular/core";
 import { Product } from "../product";
 import { ProductDetailsComponent } from "../product-details/product-details.component";
 import { SortPipe } from "../sort.pipe";
+import { ProductsService } from "../products.service";
+import { FavoritesComponent } from "../favorites/favorites.component";
+import { ProductViewComponent } from "../product-view/product-view.component";
 
 @Component({
   selector: "app-product-list",
-  imports: [ProductDetailsComponent, SortPipe],
+  imports: [
+    ProductDetailsComponent,
+    SortPipe,
+    FavoritesComponent,
+    ProductViewComponent,
+  ],
   templateUrl: "./product-list.component.html",
   styleUrl: "./product-list.component.css",
+  providers: [ProductsService],
 })
-export class ProductListComponent implements AfterViewInit {
-  babyName: string = "Syel";
+export class ProductListComponent implements AfterViewInit, OnInit {
+  private babyName: string = "Syel";
+  public products: Product[] = [];
+
+  private productService: ProductsService = inject(ProductsService);
+
+  // constructor(private readonly productService: ProductsService) {}  --constructor injection
+
+  ngOnInit(): void {
+    this.products = this.productService.getProducts();
+  }
 
   ngAfterViewInit(): void {
     console.log(this.productDetailC()!.product);
   }
-
-  products: Product[] = [
-    {
-      id: 1,
-      title: "Keyboard",
-      price: 350,
-      categories: { 1: "Periperhals", 2: "Computing" },
-    },
-    {
-      id: 2,
-      title: "Microphone",
-      price: 150,
-      categories: { 1: "Periperhals", 2: "Multimedia" },
-    },
-    {
-      id: 3,
-      title: "Web camera",
-      price: 50,
-      categories: { 1: "Periperhals", 2: "Multimedia" },
-    },
-    { id: 4, title: "Tablet", price: 300, categories: { 1: "Entertainment" } },
-  ];
 
   onAdded(product: Product): void {
     alert(`${product.title} was added to the cart.`);

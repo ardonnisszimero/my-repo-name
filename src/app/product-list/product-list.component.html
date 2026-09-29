@@ -5,7 +5,7 @@
 <h1 [innerText]="babyName"></h1> -->
 
 <!-- for loops -->
-@if (products.length > 0) {
+<!-- @if (products.length > 0) {
   <h1>Products({{ products.length }})</h1>
   <ul class="pill-group">
     @for (
@@ -20,7 +20,7 @@
       <p>No Products Found!</p>
     }
   </ul>
-}
+} -->
 
 <!-- switch statements -->
 <!-- @for (product of products; track product.id) {
@@ -57,6 +57,17 @@
   }
 </ul> -->
 
+<ul class="pill-group">
+  @for (product of products | sort; track product.id) {
+    <li class="pill" (click)="selectedProduct = product">
+      <app-product-view [id]="product.id"></app-product-view>
+      {{ product.title }}
+    </li>
+  } @empty {
+    <p>No products found!</p>
+  }
+</ul>
+
 <!-- template reference variable -->
 @if (selectedProduct) {
   <app-product-details
@@ -68,3 +79,6 @@
 
   <!-- <span>{{ productDetail.product()!.title }}</span> -->
 }
+
+<h1>Favorites</h1>
+<app-favorites></app-favorites>
