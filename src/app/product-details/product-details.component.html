@@ -1,0 +1,23 @@
+@if (product()) {
+  <p>
+    You selected:
+    <strong>{{ product()!.title }}</strong>
+  </p>
+  <p>{{ product()!.price | currency: "USD" }}</p>
+}
+<div class="pill-group">
+  @for (category of product()!.categories | keyvalue; track category) {
+    <p class="pill">{{ category.value | lowercase }}</p>
+  }
+</div>
+<button (click)="addToCart()">Add to Cart</button>
+<!-- CSS ENCAPSULATION -->
+<!-- @if (product()) {
+  <div>
+    <p>
+      You selected:
+      <strong>{{ productTitle }}</strong>
+    </p>
+    <button (click)="addToCart()">Add to cart</button>
+  </div>
+} -->
